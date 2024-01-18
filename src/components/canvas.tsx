@@ -40,7 +40,6 @@ const draw = async function(ctx: CanvasRenderingContext2D, angle: number, client
         imgShift2 = {x: imgSize2.h/__scaleRate/2, y: imgSize2.w/__scaleRate/2};
         arcShift2 *= __scaleRate;
     }       
-
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     ctx.beginPath();
     ctx.arc(__center.x, __center.y, __r1, __startedAngele1+angle+arcShift1, __startedAngele1+angle-arcShift1);

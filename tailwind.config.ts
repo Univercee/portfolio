@@ -14,6 +14,29 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    colors: {
+      'text': '#000000',
+      'background': '#f5f4f4',
+      'primary': '#070c5a',
+      'secondary': '#1f3d89',
+      'accent': '#ee7158',
+     },
+     screens: {
+      'm2xl': {'max': '1535px'},
+      // => @media (max-width: 1535px) { ... }
+
+      'mxl': {'max': '1279px'},
+      // => @media (max-width: 1279px) { ... }
+
+      'mlg': {'max': '1023px'},
+      // => @media (max-width: 1023px) { ... }
+
+      'mmd': {'max': '767px'},
+      // => @media (max-width: 767px) { ... }
+
+      'msm': {'max': '639px'},
+      // => @media (max-width: 639px) { ... }
+     }
   },
   plugins: [],
 }

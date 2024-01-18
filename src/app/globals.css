@@ -6,6 +6,16 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --linearPrimarySecondary: linear-gradient(#070c5a, #1f3d89);
+  --linearPrimaryAccent: linear-gradient(#070c5a, #ee7158);
+  --linearSecondaryAccent: linear-gradient(#1f3d89, #ee7158);
+  --radialPrimarySecondary: radial-gradient(#070c5a, #1f3d89);
+  --radialPrimaryAccent: radial-gradient(#070c5a, #ee7158);
+  --radialSecondaryAccent: radial-gradient(#1f3d89, #ee7158);
+  --color-background: #f5f4f4;
+  --color-primary: #070c5a;
+  --color-secondary: #1f3d89;
+  --color-accent: #ee7158;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,12 +26,20 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.navlink:hover {
+  text-decoration: underline;
+  color: var(--color-accent);
+}
+
+.project-button {
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  padding: .5rem;
+  text-transform: uppercase;
+  border-radius: .25rem;
+  text-align: center;
+}
+
+.project-button:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 90%, black);
 }
