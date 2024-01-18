@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react"
 import githubSvg from '@/github.svg'
 import linkedinSvg from '@/linkedin.svg'
 import { loadImage, overlap } from "@/lib/tools"
+import { links } from '@/lib/data'
 
 const __scaleRate = 2;
 const __center = {x: 200, y: 200};
@@ -16,7 +17,7 @@ const __arcShift2 = .2;
 const __githubImg = loadImage(githubSvg.src);
 const __linkedinImg = loadImage(linkedinSvg.src);
 
-const draw = async function(ctx: CanvasRenderingContext2D, angle: number, onCanvas: boolean, clientX?: number, clientY?: number) {
+const draw = async function(ctx: CanvasRenderingContext2D, angle: number, clientX?: number, clientY?: number) {
     const [githubImg, linkedinImg] = await Promise.all<HTMLImageElement>([__githubImg, __linkedinImg]);
     let imgSize1 = __imgSize, imgSize2 = __imgSize;
     let imgShift1 = {x: 0, y: 0}, imgShift2 = {x: 0, y: 0};
@@ -56,8 +57,8 @@ const draw = async function(ctx: CanvasRenderingContext2D, angle: number, onCanv
 
 export default function Canvas(){
     const canvasRef = useRef(null);
-    let overlapGit = false;
-    let overlapLI = false;
+    const rotationSpeed = .005;
+    let isOverlapLinks = [false, false];
     let angle = 0;
     let animationFrameId: number;
     let mousePos = { x: undefined, y: undefined };
@@ -66,10 +67,10 @@ export default function Canvas(){
         const canvas = canvasRef.current as HTMLCanvasElement;
         const context = canvas.getContext('2d');
         const render = async () => {
-            angle = (angle+.005)%(Math.PI*2);
-            const pos = canvas.getBoundingClientRect();
-            [overlapGit, overlapLI] = await draw(context, angle, true, mousePos.x-pos.x, mousePos.y-pos.y);
-            canvas.style.cursor = overlapGit||overlapLI?'pointer':'auto';
+            angle = (angle+rotationSpeed)%(Math.PI*2);
+            const canvasPos = canvas.getBoundingClientRect();
+            isOverlapLinks = await draw(context, angle, mousePos.x-canvasPos.x, mousePos.y-canvasPos.y);
+            updateCursor(canvas, isOverlapLinks);
             animationFrameId = window.requestAnimationFrame(render);
         }
         render();
@@ -78,6 +79,7 @@ export default function Canvas(){
         }
     }, [draw])
 
+    
     function addListener(){
         window.addEventListener('mousemove', updateMousePosition);
         window.addEventListener('click', redirect);
@@ -90,12 +92,15 @@ export default function Canvas(){
         mousePos = { x: event.clientX, y: event.clientY };
     }
     function redirect() {
-        if(overlapGit){
-            window.open("https://www.github.com/Univercee");
+        if(isOverlapLinks[0]){
+            window.open(links.git);
         }
-        if(overlapLI){
-            window.open("https://www.linkedin.com/in/aleksandr-ostromogilskii-769315205/");
+        if(isOverlapLinks[1]){
+            window.open(links.linkedIn);
         }
+    }
+    function updateCursor(el: HTMLElement, params: boolean[]){
+        el.style.cursor = params.some(v => v === true)?'pointer':'auto';
     }
 
 
